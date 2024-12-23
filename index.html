@@ -1,54 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Title</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome for heart icon -->
-  <style>
-    /* Valentine's Day CSS theme */
-    body {
-      background-color: #f8d7da; /* Light pink background */
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar li {
+            margin-bottom: 1rem;
+        }
+        .sidebar a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+        .sidebar a:hover {
+            color: #0056b3;
+        }
+        .main-content {
+            flex: 1;
+            margin-left: 2rem;
+        }
+        .section {
+            margin-bottom: 2rem;
+        }
+        .section h2 {
+            background-color: #555;
+            color: white;
+            padding: 0.5rem;
+        }
+        .tile-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .tile {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .tile:hover {
+            transform: scale(1.05);
+        }
+        .tile a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .tile a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        const tools = {
+            'Content Generation': [
+                { name: 'Jasper AI', description: 'AI for marketing content creation.', link: 'https://www.jasper.ai/' },
+                { name: 'Writesonic', description: 'Content generation for ads and blogs.', link: 'https://writesonic.com/' },
+                { name: 'Copy.ai', description: 'Copywriting AI for various needs.', link: 'https://www.copy.ai/' },
+                { name: 'Peppertype', description: 'AI writing for teams.', link: 'https://www.peppertype.ai/' },
+                { name: 'ContentBot', description: 'Blog and ad content generator.', link: 'https://contentbot.ai/' },
+                { name: 'Wordtune', description: 'AI to improve writing.', link: 'https://www.wordtune.com/' },
+                { name: 'Simplified', description: 'Content marketing tools.', link: 'https://simplified.com/' },
+                { name: 'Anyword', description: 'AI-powered text optimizer.', link: 'https://www.anyword.com/' },
+                { name: 'Frase', description: 'SEO and content optimization.', link: 'https://www.frase.io/' },
+                { name: 'Surfer SEO', description: 'Content for SEO rankings.', link: 'https://surferseo.com/' }
+            ],
+            'Image Generation': [
+                { name: 'DALL-E', description: 'AI for generating images from text prompts.', link: 'https://openai.com/dall-e' },
+                { name: 'Runway ML', description: 'AI tools for creatives and designers.', link: 'https://runwayml.com/' },
+                { name: 'DeepArt', description: 'Create art using AI.', link: 'https://deepart.io/' },
+                { name: 'Artbreeder', description: 'AI-powered image mixing.', link: 'https://www.artbreeder.com/' },
+                { name: 'Fotor', description: 'AI design and editing.', link: 'https://www.fotor.com/' },
+                { name: 'Hotpot.ai', description: 'Image editing and creation.', link: 'https://hotpot.ai/' },
+                { name: 'Deep Dream Generator', description: 'AI art generator.', link: 'https://deepdreamgenerator.com/' },
+                { name: 'NightCafe', description: 'AI art creation tool.', link: 'https://creator.nightcafe.studio/' },
+                { name: 'BigSleep', description: 'Image generation from text.', link: 'https://github.com/lucidrains/big-sleep' },
+                { name: 'Pictory', description: 'Text to video generation.', link: 'https://pictory.ai/' }
+            ],
+            'Conversational AI': [
+                { name: 'ChatGPT', description: 'Conversational AI for various tasks.', link: 'https://openai.com/chatgpt' },
+                { name: 'Google Bard', description: 'Creative and technical AI solutions.', link: 'https://bard.google.com/' },
+                { name: 'Claude', description: 'Safe and natural conversational AI.', link: 'https://www.anthropic.com/' },
+                { name: 'Replika', description: 'AI companion chatbot.', link: 'https://replika.ai/' },
+                { name: 'Mitsuku', description: 'AI chatbot for entertainment.', link: 'https://www.pandorabots.com/mitsuku/' },
+                { name: 'Dialogflow', description: 'Google conversational AI.', link: 'https://dialogflow.cloud.google.com/' },
+                { name: 'Rasa', description: 'Custom chatbot framework.', link: 'https://rasa.com/' },
+                { name: 'Botpress', description: 'Open-source chatbot builder.', link: 'https://botpress.com/' },
+                { name: 'Tidio', description: 'AI customer support chatbot.', link: 'https://www.tidio.com/' },
+                { name: 'Drift', description: 'Conversational marketing AI.', link: 'https://www.drift.com/' }
+            ]
+        };
 
-    h1 {
-      color: #d61c5e; /* Deep pink text color */
-    }
+        function loadCategory(category) {
+            const container = document.querySelector('.main-content');
+            container.innerHTML = '';
+            const section = document.createElement('div');
+            section.className = 'section';
+            const header = document.createElement('h2');
+            header.textContent = category;
+            section.appendChild(header);
+            const tileContainer = document.createElement('div');
+            tileContainer.className = 'tile-container';
+            tools[category].forEach(tool => {
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                tile.innerHTML = `<a href="${tool.link}" target="_blank">${tool.name}</a><p>${tool.description}</p>`;
+                tileContainer.appendChild(tile);
+            });
+            section.appendChild(tileContainer);
+            container.appendChild(section);
+            console.log(`Loaded category: ${category}`);
+        }
 
-    .heart {
-      color: #e83e8c; /* Pink heart color */
-    }
-
-    p {
-      color: #7d3467; /* Dark pink text color */
-    }
-
-    .button {
-      background-color: #d61c5e; /* Deep pink button background color */
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.3s;
-    }
-
-    .button:hover {
-      background-color: #c21853; /* Darker pink on hover */
-    }
-  </style>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebarLinks = document.querySelectorAll('.sidebar a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', event => {
+                    event.preventDefault();
+                    const category = event.target.textContent;
+                    loadCategory(category);
+                });
+            });
+            console.log('Page loaded. Loading first category by default.');
+            loadCategory(Object.keys(tools)[0]);
+        });
+    </script>
 </head>
-<body style="text-align: center;margin: 15px;" >
-
-  <h1>Happy Valentine's Day!</h1>
-  <i class="fas fa-heart heart fa-3x"></i> <!-- Heart icon from Font Awesome -->
-  <pre>
-     404 not found
-    
- </pre>
-  <button class="button">Error</button>
+<body>
+    <header>
+        <h1>AI Tools Dashboard</h1>
+        <p>Explore AI tools categorized by use case</p>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="#">Content Generation</a></li>
+                <li><a href="#">Image Generation</a></li>
+                <li><a href="#">Conversational AI</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <!-- Content will be dynamically loaded here -->
+        </div>
+    </div>
 </body>
 </html>
